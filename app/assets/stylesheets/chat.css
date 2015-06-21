@@ -1,0 +1,18 @@
+#chat-area
+{
+  display: block;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-top: 500px;
+  vertical-align: bottom;
+  height: 500px;
+  background-color: #efefef;
+  width: 100%;
+}
+
+#user-list
+{
+  display: block;
+  height: 500px;
+  background-color: #F7F7F7;
+}

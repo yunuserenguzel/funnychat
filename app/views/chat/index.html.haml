@@ -1,0 +1,12 @@
+.container
+  .row
+    .col-lg-4.col-lg-offset-4
+      .row
+        .col-lg-12
+          %h1
+            Register for chat
+        .col-lg-12
+          = form_for '', layout: :basic do |f|
+            = f.text_field :username
+            = f.select :dialect, @dialect_choices
+            = f.submit 'Start Chat'
