@@ -1,3 +1,4 @@
+MAX_INT = 9007199254740992;
 function initializeChat(){
   $(document).ready(function () {
     Chat.startChat();
@@ -11,26 +12,29 @@ function keyPressed(event,input){
     input.value = '';
   }
 }
+function appendMessage(message){
+  var messageElement = document.createElement('div');
+  messageElement.className = 'chat-message';
+  $(messageElement).append('<img src="assets/images/'+message.dialect+'_icon.png">')
+  $(messageElement).append('<p class="chat-message-text">'+message.text+'</p>');
+  $(messageElement).append('<p class="chat-message-username">'+message.username+'</p>');
+  $('#chat-area').append(messageElement);
+  $("#chat-area").animate({ scrollTop: $('#chat-area').get(0).scrollHeight }, 500);
+}
 
 var Chat = {
   startChat: function () {
-    Chat.dispatcher = new WebSocketRails('localhost:3000/websocket');
+    Chat.dispatcher = new WebSocketRails(location.host + '/websocket');
     Chat.dispatcher.on_open = Chat.onOpen;
-    Chat.dispatcher.bind('new_message',Chat.onMessageReceived);
+    Chat.channel = Chat.dispatcher.subscribe('chat');
+    Chat.channel.bind('new_message',Chat.onMessageReceived);
   },
   sendMessage: function (text) {
     Chat.dispatcher.trigger('create_message',text);
   },
-  onMessageReceived: function (data) {
-    console.log(data);
-
-  },
-  appendMessage: function(message) {
-    var text = document.createElement('div');
-    $(text).html('<p>'+message.text+'</p>');
-    $('#chat-area').append(text);
-    $("#chat-area").animate({ scrollTop: 500 }, 1000);
-
+  onMessageReceived: function (message) {
+    console.log(message);
+    appendMessage(message);
   },
   onOpen: function (data) {
     console.log(data);
