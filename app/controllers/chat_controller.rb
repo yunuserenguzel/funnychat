@@ -11,6 +11,8 @@ class ChatController < ApplicationController
   def chat
     if !session[:username]
       redirect_to action: :index
+    else
+      @username = session[:username]
     end
   end
 
