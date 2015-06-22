@@ -3,11 +3,13 @@
   display: block;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding-top: 500px;
   vertical-align: bottom;
   height: 500px;
   background-color: #efefef;
   width: 100%;
+  text-align: left;
+  padding: 500px 5px 5px;
+  /*border-top: 1px solid #999;*/
 }
 
 #user-list
@@ -15,4 +17,56 @@
   display: block;
   height: 500px;
   background-color: #F7F7F7;
+}
+
+.chat-message
+{
+  /*text-align: right;*/
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  /*padding-left: 10px;*/
+  /*padding-right: 10px;*/
+  border: 1px solid #ddd;
+  /*display: block;*/
+  /*width: auto;*/
+  float: left;
+  clear: both;
+  min-width: 100px;
+  /*line-height: 40px !important;*/
+}
+.chat-message-user-holder
+{
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-message-icon
+{
+  height: 32px;
+  /*min-height: 36px;*/
+  width: auto;
+}
+.chat-message-text
+{
+
+  /*display: inline-block;*/
+  float: none;
+  font-size: 22px;
+  /*min-height: 36px;*/
+  /*margin: 0;*/
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.chat-message-username
+{
+  /*margin-left: 10px;*/
+  padding: 0;
+  display: inline-block;
+  /*min-height: 32px;*/
+  font-size: 18px;
+  position: relative;
+  top: 7px;
+  color: #2E2F30;
+  /*margin: 10px;*/
+
 }
