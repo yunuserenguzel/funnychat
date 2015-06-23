@@ -25,6 +25,10 @@ WebsocketRails.setup do |config|
   # Prevent Thin from daemonizing (default is true)
   # config.daemonize = false
 
+  if Rails.env.production?
+    # redis://redistogo:c6651213ea4bbd3f8950f264bc93ae89@soapfish.redistogo.com:9799/
+    config.redis_options = {:host => 'soapfish.redistogo.com', :port => '9799', :user => 'redistogo', :password => 'c6651213ea4bbd3f8950f264bc93ae89'}
+  end
   # Uncomment and edit to point to a different redis instance.
   # Will not be used unless standalone or synchronization mode
   # is enabled.
