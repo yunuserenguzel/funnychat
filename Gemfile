@@ -47,3 +47,5 @@ gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
 gem 'bh', '~> 1.2'
+
+gem 'rest-client'
