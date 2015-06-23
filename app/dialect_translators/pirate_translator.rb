@@ -1,0 +1,2 @@
+class PirateTranslator < DialectTranslatorBase
+end

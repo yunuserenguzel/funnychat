@@ -1,0 +1,3 @@
+class ValleyGirlTranslator < DialectTranslatorBase
+
+end
