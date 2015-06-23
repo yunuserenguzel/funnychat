@@ -1,18 +1,18 @@
 MAX_INT = 9007199254740992;
-function initializeChat(){
+function initializeChat() {
   $(document).ready(function () {
     Chat.startChat();
-    $('#chat-input input').focus();
+    $('#chat-input').focus();
   });
 }
 
-function keyPressed(event,input){
+function keyPressed(event,input) {
   if(event.charCode == 13) {
-    Chat.sendMessage(input.value)
+    Chat.sendMessage(input.value);
     input.value = '';
   }
 }
-function appendMessage(message){
+function appendMessage(message) {
   var messageElement = document.createElement('div');
   messageElement.className = 'chat-message';
   var userHolder = document.createElement('div');
@@ -25,13 +25,30 @@ function appendMessage(message){
   $("#chat-area").animate({ scrollTop: $('#chat-area').get(0).scrollHeight }, 500);
 }
 
+function setUsers(users) {
+  $('#user-list').html('');
+  for(var i=0; i<users.length;i++) {
+    var user = users[i];
+    var userElement = document.createElement('div');
+    userElement.className = 'user-element';
+    $(userElement).append(user);
+    $('#user-list').append(userElement);
+  }
+}
+
+function logout() {
+  Chat.close();
+  window.location = 'logout';
+}
+
 var Chat = {
   startChat: function () {
     Chat.dispatcher = new WebSocketRails(location.host + '/websocket');
     Chat.dispatcher.on_open = Chat.onOpen;
     Chat.channel = Chat.dispatcher.subscribe('chat');
     Chat.channel.bind('new_message',Chat.onMessageReceived);
-    Chat.channel.bind('users_updated', Chat.onUserListUpdated())
+    Chat.channel.bind('active_users', Chat.onUserListUpdated);
+    Chat.dispatcher.trigger('active_users',null)
   },
   sendMessage: function (text) {
     Chat.dispatcher.trigger('create_message',text);
@@ -44,9 +61,11 @@ var Chat = {
     console.log(data);
   },
   onUserListUpdated: function (users) {
-    for(var i=0; i<users.length;i++) {
-
-    }
+    console.log('active users', users)
+    setUsers(users);
+  },
+  close: function () {
+    Chat.dispatcher.disconnect();
   }
 
 }
