@@ -38,6 +38,8 @@
 .chat-message-user-holder
 {
   border-bottom: 1px solid #ccc;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 .chat-message-icon
