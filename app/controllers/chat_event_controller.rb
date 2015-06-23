@@ -6,7 +6,9 @@ class ChatEventController < WebsocketRails::BaseController
 
   def create_message
     # send_message :new_message, {text:message, dialect:session[:user_dialect], username:session[:username]}
-    WebsocketRails[:chat].trigger :new_message, {text:message, dialect:session[:user_dialect], username:session[:username]}
+    user_dialect_type = session[:user_dialect]
+    translated_message = DialectTranslator.translate user_dialect_type, message
+    WebsocketRails[:chat].trigger :new_message, {text:translated_message, dialect:user_dialect_type, username:session[:username]}
   end
 
   def client_connected
