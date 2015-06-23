@@ -1,2 +1,0 @@
-class YodaTranslator < DialectTranslatorBase
-end
