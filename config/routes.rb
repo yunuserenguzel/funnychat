@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get '/' => 'chat#index'
+  get '/' => 'chat#index', as: :index
 
   get 'chat' => 'chat#chat'
 
