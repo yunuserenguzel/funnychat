@@ -63,7 +63,9 @@ RSpec.describe 'Websocket Controllers' do
     end
 
     context 'active users' do
-
+      it 'should trigger success message' do
+        expect(create_event(:active_users,nil).dispatch).to trigger_success_message
+      end
     end
   end
 
