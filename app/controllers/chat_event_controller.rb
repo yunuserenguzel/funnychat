@@ -17,18 +17,17 @@ class ChatEventController < WebsocketRails::BaseController
 
   def client_connected
     controller_store[:active_users] << session
-    trigger_success
   end
 
   def delete_user
     controller_store[:active_users].delete(session)
     active_users
-    trigger_success
   end
 
   def active_users
     active_users = controller_store[:active_users].map { |session| session[:username] }
     WebsocketRails[:chat].trigger :active_users, active_users
+    trigger_success
   end
 
 end
