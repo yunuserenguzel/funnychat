@@ -7,7 +7,7 @@ class ChatEventController < WebsocketRails::BaseController
   def create_message
     user_dialect_type = session[:user_dialect]
     translated_message = DialectTranslator.translate user_dialect_type, message
-    new_message text:translated_message, dialect:user_dialect_type, username:session[:username]
+    new_message text:translated_message, dialect:user_dialect_type, username:session[:username], date:DateTime.now
     trigger_success
   end
 

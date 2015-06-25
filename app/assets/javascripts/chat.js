@@ -1,4 +1,3 @@
-MAX_INT = 9007199254740992;
 function initializeChat() {
   $(document).ready(function () {
     Chat.startChat();
@@ -19,6 +18,7 @@ function appendMessage(message) {
   userHolder.className = 'chat-message-user-holder';
   $(userHolder).append('<img class="chat-message-icon" src="/images/'+message.dialect+'_icon.png">')
   $(userHolder).append('<p class="chat-message-username">'+message.username+'</p>');
+  $(userHolder).append('<div class="chat-message-time">'+(new Date(message.date)).toLocaleTimeString()+'</div>')
   $(messageElement).append(userHolder);
   $(messageElement).append('<p class="chat-message-text">'+message.text+'</p>');
   $('#chat-area').append(messageElement);
