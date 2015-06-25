@@ -43,18 +43,28 @@ RSpec.describe 'Websocket Controllers' do
     end
 
     context 'delete user' do
-      it 'should remove user from the session' do
-        controller_store = {active_users:[]}
+      before :each do
+        @controller_store = {active_users:[]}
         class ChatEventController
           def session; {username:'test-user',user_dialect: DialectType::Yoda} end
         end
-        controller_store[:active_users] << ChatEventController.new.session
-        allow_any_instance_of(ChatEventController).to receive(:controller_store).and_return(controller_store)
+        @controller_store[:active_users] << ChatEventController.new.session
+        allow_any_instance_of(ChatEventController).to receive(:controller_store).and_return(@controller_store)
+        allow_any_instance_of(ChatEventController).to receive(:active_users).and_return(nil)
+      end
+      it 'should remove user from the session' do
         create_event(:client_disconnected,nil).dispatch
-        expect(controller_store[:active_users].count).to eq(0)
+        expect(@controller_store[:active_users].count).to eq(0)
+      end
+      it 'should call active users' do
+        expect_any_instance_of(ChatEventController).to receive(:active_users)
+        create_event(:client_disconnected,nil).dispatch
       end
     end
 
+    context 'active users' do
+
+    end
   end
 
 end
