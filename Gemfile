@@ -40,7 +40,7 @@ gem 'spring',        group: :development
 
 gem 'rspec-rails'
 
-gem 'websocket-rails'
+gem 'websocket-rails', git: 'https://github.com/depili/websocket-rails', branch: 'testing_fix'
 
 gem 'haml-rails'
 
