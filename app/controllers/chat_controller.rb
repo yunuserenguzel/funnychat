@@ -1,7 +1,7 @@
 class ChatController < ApplicationController
 
   def index
-    if session[:username]
+    if current_user
       redirect_to action: :chat
     else
       @dialect_choices = DialectType.all
@@ -9,16 +9,15 @@ class ChatController < ApplicationController
   end
 
   def chat
-    if !session[:username]
+    if !current_user
       redirect_to action: :index
     else
-      @username = session[:username]
+      @username = current_user.name
     end
   end
 
   def register
-    session[:username] = params[:username]
-    session[:user_dialect] = params[:dialect]
+    session[:current_user] = User.new(id: SecureRandom.uuid, name: params[:username], dialect_type: params[:dialect]).to_json
     redirect_to action: :chat
   end
 
