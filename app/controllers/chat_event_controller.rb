@@ -33,7 +33,9 @@ class ChatEventController < WebsocketRails::BaseController
   end
 
   def ring_bell
-    WebsocketRails.users[message].send_message :ring_bell, current_user
+    local_connection = WebsocketRails.users[message]
+    local_connection.connections.first.send_message :ring_bell, current_user
+    trigger_success
   end
 
 end
