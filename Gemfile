@@ -49,3 +49,5 @@ gem 'autoprefixer-rails'
 gem 'bh', '~> 1.2'
 
 gem 'rest-client'
+
+gem 'therubyracer', '~>0.11.0'
