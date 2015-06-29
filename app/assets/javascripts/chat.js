@@ -43,7 +43,7 @@ function appendMessage(message) {
 function appendRingBell(data) {
   var ringBellElement = document.createElement('div');
   ringBellElement.className = 'ring-bell-element';
-  $(ringBellElement).append(data.name + ' has ringed you!');
+  $(ringBellElement).append(data.user.name + ' rang the bell to you! '+(new Date(data.date)).toLocaleTimeString());
   $('#chat-area').append(ringBellElement);
   $("#chat-area").animate({ scrollTop: $('#chat-area').get(0).scrollHeight }, 500);
 
@@ -59,7 +59,8 @@ function setUsers(users) {
     var user = users[i];
     var userElement = document.createElement('div');
     userElement.className = 'user-element';
-    $(userElement).append('<button onclick="ringUser(\''+user.id+'\',this)">Ring</button>');
+    $(userElement).append('<button class="btn btn-default" onclick="ringUser(\''+user.id+'\',this)"><img src="/images/bell.png"></button>');
+
     $(userElement).append('<strong>'+user.name+'</strong>');
     $('#user-list').append(userElement);
   }

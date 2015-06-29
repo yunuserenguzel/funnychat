@@ -17,7 +17,32 @@
   display: block;
   height: 500px;
   background-color: #F7F7F7;
+  padding-top: 5px;
 }
+
+.user-element
+{
+  font-size: 13px;
+  font-weight: normal;
+  margin: 5px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2E2F30;
+}
+.user-element:last-child
+{
+  border-bottom: none;
+}
+.user-element button
+{
+  padding: 0 !important;
+  margin-right: 5px;
+}
+.user-element img
+{
+  height: 22px;
+  width: 22px;
+}
+
 
 .chat-message
 {
@@ -90,4 +115,8 @@
 .ring-bell-element
 {
   color: #B00100;
+  float: left;
+  clear: both;
+  font-style: italic;
+  margin-bottom: 10px;
 }
