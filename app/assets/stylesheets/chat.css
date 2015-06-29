@@ -47,6 +47,7 @@
   height: 32px;
   /*min-height: 36px;*/
   width: auto;
+  margin-right: 5px;
 }
 .chat-message-text
 {
@@ -65,7 +66,7 @@
   padding: 0;
   display: inline-block;
   /*min-height: 32px;*/
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
 
   position: relative;
