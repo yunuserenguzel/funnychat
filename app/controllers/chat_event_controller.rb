@@ -5,9 +5,8 @@ class ChatEventController < WebsocketRails::BaseController
   end
 
   def create_message
-    user_dialect_type = session[:user_dialect]
-    translated_message = DialectTranslator.translate user_dialect_type, message
-    new_message text:translated_message, dialect:user_dialect_type, username:session[:username], date:DateTime.now
+    translated_message = DialectTranslator.translate current_user.dialect_type, message
+    new_message text:translated_message, dialect:current_user.dialect_type, username:current_user.name, date:DateTime.now
     trigger_success
   end
 
@@ -16,18 +15,25 @@ class ChatEventController < WebsocketRails::BaseController
   end
 
   def client_connected
-    controller_store[:active_users] << session
+    controller_store[:active_users] << current_user
+    WebsocketRails.users[current_user.id] = connection
   end
 
   def delete_user
-    controller_store[:active_users].delete(session)
+    controller_store[:active_users].delete(current_user)
     active_users
   end
 
   def active_users
-    active_users = controller_store[:active_users].map { |session| session[:username] }
+    active_users = controller_store[:active_users]
+    # WebsocketRails[:chat].trigger :active_users, active_users
+    # puts "users: #{WebsocketRails.users.to_json}"
     WebsocketRails[:chat].trigger :active_users, active_users
     trigger_success
+  end
+
+  def ring_bell
+    WebsocketRails.users[message].send_message :ring_bell, current_user
   end
 
 end

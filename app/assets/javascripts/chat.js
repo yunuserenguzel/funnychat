@@ -7,10 +7,23 @@ function initializeChat() {
 
 function keyPressed(event,input) {
   if(event.charCode == 13) {
-    Chat.sendMessage(input.value);
-    input.value = '';
+    sendMessage(input);
   }
 }
+function sendMessage(input) {
+  if(input.value.length > 0) {
+    input.disabled = true;
+    Chat.sendMessage(input.value, function () {
+      input.disabled = false;
+      input.value = '';
+      input.focus();
+    }, function () {
+      input.disabled = false;
+      input.focus();
+    });
+  }
+}
+
 function appendMessage(message) {
   var messageElement = document.createElement('div');
   messageElement.className = 'chat-message';
@@ -31,9 +44,14 @@ function setUsers(users) {
     var user = users[i];
     var userElement = document.createElement('div');
     userElement.className = 'user-element';
-    $(userElement).append(user);
+    $(userElement).append('<button onclick="ringUser(\''+user.id+'\')">Ring</button>');
+    $(userElement).append('<strong>'+user.name+'</strong>');
     $('#user-list').append(userElement);
   }
+}
+
+function ringUser(userId) {
+  Chat.sendRingBell(userId);
 }
 
 function logout() {
@@ -44,28 +62,36 @@ function logout() {
 var Chat = {
   startChat: function () {
     Chat.dispatcher = new WebSocketRails(location.host + '/websocket');
+    Chat.dispatcher.bind('ring_bell',Chat.onRingBellReceived);
     Chat.dispatcher.on_open = Chat.onOpen;
     Chat.channel = Chat.dispatcher.subscribe('chat');
     Chat.channel.bind('new_message',Chat.onMessageReceived);
     Chat.channel.bind('active_users', Chat.onUserListUpdated);
-    Chat.dispatcher.trigger('active_users',null)
   },
-  sendMessage: function (text) {
-    Chat.dispatcher.trigger('create_message',text);
+  sendMessage: function (text,success,failure) {
+    Chat.dispatcher.trigger('create_message',text,success,failure);
   },
   onMessageReceived: function (message) {
     console.log(message);
     appendMessage(message);
   },
   onOpen: function (data) {
-    console.log(data);
+    Chat.dispatcher.trigger('active_users',null);
   },
   onUserListUpdated: function (users) {
-    console.log('active users', users)
+    console.log('active users', users);
     setUsers(users);
   },
   close: function () {
     Chat.dispatcher.disconnect();
+  },
+  sendRingBell:function(userId) {
+    Chat.dispatcher.trigger('ring_bell',userId);
+  },
+  onRingBellReceived: function (data) {
+    var audio = new Audio('/Desk-bell-sound.wav');
+    console.log(data);
+    audio.play();
   }
 
 }
